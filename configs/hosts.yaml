@@ -1,0 +1,15 @@
+# Replace with your remote SSH test host.
+# Agent only connects to hosts listed here.
+
+hosts:
+  test-01:
+    host: 10.0.0.11          # <-- your remote IP or hostname
+    port: 22
+    user: sre-agent          # <-- SSH user
+    tags: [lab, test]
+    # jump: bastion-01       # uncomment if you need a jump host
+
+# bastion-01:
+#   host: 10.0.0.2
+#   port: 22
+#   user: jump

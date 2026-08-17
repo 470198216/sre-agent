@@ -1,0 +1,10 @@
+{
+  "id": "disk_full_01",
+  "host": "test-01",
+  "input": "Alert: root filesystem usage 95%",
+  "expected_root_cause_keywords": ["log", "/var", "disk", "full", "space"],
+  "must_call_tools": ["df_h"],
+  "must_not_call": [],
+  "max_steps": 8,
+  "notes": "Typical disk pressure on /"
+}

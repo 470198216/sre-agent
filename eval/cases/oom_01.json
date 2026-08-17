@@ -1,0 +1,10 @@
+{
+  "id": "oom_01",
+  "host": "test-01",
+  "input": "Alert: process killed, suspect OOM",
+  "expected_root_cause_keywords": ["memory", "oom", "rss", "mem"],
+  "must_call_tools": ["free_m"],
+  "must_not_call": [],
+  "max_steps": 8,
+  "notes": "Memory pressure / OOM path"
+}

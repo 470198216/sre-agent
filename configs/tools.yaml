@@ -1,0 +1,64 @@
+# Named tools only. The model cannot run arbitrary shell.
+# path_arg must be one of allowed_paths when the tool declares path_arg: true.
+
+defaults:
+  timeout_sec: 20
+  max_output_bytes: 65536
+  allowed_paths:
+    - /
+    - /var
+    - /var/log
+    - /tmp
+    - /home
+
+tools:
+  df_h:
+    description: Show filesystem disk space usage
+    command: df -h
+    needs_approval: false
+
+  df_i:
+    description: Show inode usage
+    command: df -i
+    needs_approval: false
+
+  du_top:
+    description: Top disk usage under a path (depth 1)
+    command: "du -xhd1 {path} 2>/dev/null | sort -h | tail -n 20"
+    path_arg: true
+    needs_approval: false
+
+  free_m:
+    description: Show memory usage in MiB
+    command: free -m
+    needs_approval: false
+
+  ps_mem:
+    description: Top processes by memory
+    command: "ps aux --sort=-%mem | head -n 20"
+    needs_approval: false
+
+  ps_cpu:
+    description: Top processes by CPU
+    command: "ps aux --sort=-%cpu | head -n 20"
+    needs_approval: false
+
+  uptime_load:
+    description: Show uptime and load average
+    command: uptime
+    needs_approval: false
+
+  journal_tail:
+    description: Recent systemd journal lines
+    command: "journalctl -n 100 --no-pager"
+    needs_approval: false
+
+  dmesg_tail:
+    description: Recent kernel ring buffer (kernel assist signal)
+    command: "dmesg -T 2>/dev/null | tail -n 100 || dmesg | tail -n 100"
+    needs_approval: false
+
+  listen_ports:
+    description: Listening TCP/UDP sockets
+    command: "ss -lntup 2>/dev/null || netstat -lntup"
+    needs_approval: false

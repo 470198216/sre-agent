@@ -1,0 +1,17 @@
+{
+  "free_m": {
+    "exit_status": 0,
+    "stdout": "              total        used        free      shared  buff/cache   available\nMem:           7950        7600         100          20         250         120\n",
+    "stderr": ""
+  },
+  "ps_mem": {
+    "exit_status": 0,
+    "stdout": "USER       PID %CPU %MEM    VSZ   RSS COMMAND\napp      12345  2.0 45.0 4000000 3600000 java\n",
+    "stderr": ""
+  },
+  "dmesg_tail": {
+    "exit_status": 0,
+    "stdout": "Out of memory: Killed process 12345 (java) total-vm:4000000kB\n",
+    "stderr": ""
+  }
+}

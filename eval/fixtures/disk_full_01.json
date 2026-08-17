@@ -1,0 +1,17 @@
+{
+  "df_h": {
+    "exit_status": 0,
+    "stdout": "Filesystem      Size  Used Avail Use% Mounted on\n/dev/sda1        40G   38G  2.0G  95% /\n",
+    "stderr": ""
+  },
+  "du_top": {
+    "exit_status": 0,
+    "stdout": "20G\t/var/log\n4.0G\t/var/lib\n",
+    "stderr": ""
+  },
+  "journal_tail": {
+    "exit_status": 0,
+    "stdout": "rsyslogd: disk almost full under /var/log\n",
+    "stderr": ""
+  }
+}
