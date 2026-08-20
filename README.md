@@ -19,3 +19,9 @@ sre-agent ping --host test-01
 sre-agent tool --host test-01 --name df_h
 sre-agent diagnose --host test-01 --symptom "/ disk usage alert 95%"
 ```
+
+### 学习简单介绍
+教模型「扮演谁、规则是什么、最后报告长什么样」
+tools 参数：把可选工具菜单以结构化方式交给模型
+模型：要么生成 tool_calls，要么生成最终 JSON content
+AgentLoop：有 tool_calls → 调工具并把结果塞回对话；有合法 JSON → 结束
