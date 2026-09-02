@@ -4,14 +4,12 @@ from dataclasses import dataclass
 from typing import Any
 
 
-FORBIDDEN_SUBSTRINGS = (
-    ">",
-    ">>",
-    "$(",
-    "`",
-    "\n",
-    ";",
-    "&&",
+# Applied to the interpolated path only. Templates in tools.yaml are trusted
+# and may contain `2>/dev/null`, pipes, and `||`.
+_PATH_FORBIDDEN = (">", ">>", "$(", "`", "\n", ";", "&&", "|")
+
+# Destructive verbs: still scan the final command in case YAML is edited badly.
+_COMMAND_FORBIDDEN = (
     "rm ",
     "mkfs",
     "dd ",
@@ -21,6 +19,10 @@ FORBIDDEN_SUBSTRINGS = (
     "userdel",
     "passwd",
     "chmod 777",
+    "$(",
+    "`",
+    "\n",
+    ";",
 )
 
 
@@ -72,6 +74,9 @@ def render_command(tool: ToolDef, path: str | None, allowed_paths: set[str]) -> 
             raise ValueError(f"tool {tool.name} requires path")
         if path not in allowed_paths:
             raise ValueError(f"path not allowed: {path}")
+        for bad in _PATH_FORBIDDEN:
+            if bad in path:
+                raise ValueError(f"forbidden token {bad!r} in path")
         command = tool.command.format(path=path)
     else:
         if path:
@@ -79,11 +84,7 @@ def render_command(tool: ToolDef, path: str | None, allowed_paths: set[str]) -> 
         command = tool.command
 
     lowered = command.lower()
-    for bad in FORBIDDEN_SUBSTRINGS:
-        if bad in (">", ">>", "$(", "`", "\n", ";", "&&") and bad in command:
-            raise ValueError(f"forbidden token {bad!r} in command")
-        if bad.endswith(" ") and bad in lowered:
-            raise ValueError(f"forbidden token {bad!r} in command")
-        if bad in ("mkfs", "reboot", "shutdown", "poweroff", "userdel", "passwd", "chmod 777") and bad in lowered:
+    for bad in _COMMAND_FORBIDDEN:
+        if bad in lowered:
             raise ValueError(f"forbidden token {bad!r} in command")
     return command

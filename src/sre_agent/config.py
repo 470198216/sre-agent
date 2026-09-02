@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -25,6 +25,11 @@ class Settings(BaseSettings):
     ssh_private_key_path: str = Field(default="", alias="SSH_PRIVATE_KEY_PATH")
     ssh_passphrase: str | None = Field(default=None, alias="SSH_PASSPHRASE")
     max_agent_steps: int = Field(default=8, alias="MAX_AGENT_STEPS")
+
+    @field_validator("llm_api_key", "llm_base_url", "llm_model", "ssh_private_key_path", mode="before")
+    @classmethod
+    def _strip_env(cls, v: Any) -> Any:
+        return v.strip() if isinstance(v, str) else v
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
