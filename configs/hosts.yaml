@@ -3,9 +3,9 @@
 
 hosts:
   test-01:
-    host: 10.0.0.11          # <-- your remote IP or hostname
+    host: 192.168.1.110          # <-- your remote IP or hostname
     port: 22
-    user: sre-agent          # <-- SSH user
+    user: wwj          # <-- SSH user
     tags: [lab, test]
     # jump: bastion-01       # uncomment if you need a jump host
 
